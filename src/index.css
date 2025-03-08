@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Neucha&display=swap');
+
+@property --tw-border-style {
+    syntax: "*";
+}
+
+@theme {
+    --color-sidebar-bg: #181818;
+    --color-main-content: #212121;
+    --font-dm-sans: 'DM Sans', sans-serif;
+}
