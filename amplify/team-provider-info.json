@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-openweb-dev-c489f-authRole",
+      "UnauthRoleArn": "arn:aws:iam::058264239608:role/amplify-openweb-dev-c489f-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::058264239608:role/amplify-openweb-dev-c489f-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-openweb-dev-c489f-deployment",
+      "UnauthRoleName": "amplify-openweb-dev-c489f-unauthRole",
+      "StackName": "amplify-openweb-dev-c489f",
+      "StackId": "arn:aws:cloudformation:us-west-1:058264239608:stack/amplify-openweb-dev-c489f/44c08570-fc6c-11ef-ac3f-0298fa46ea0f",
+      "AmplifyAppId": "d2a0fptsut5wr8"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2a0fptsut5wr8",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
