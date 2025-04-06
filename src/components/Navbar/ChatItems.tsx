@@ -24,7 +24,7 @@ const ChatItem: FC<ChatItemProps> = ({
 	};
 
 	return (
-		<div className="flex items-center justify-between p-2 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+		<section className="flex items-center justify-between p-2 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
 			{isEditing ? (
 				<input
 					type="text"
@@ -33,15 +33,15 @@ const ChatItem: FC<ChatItemProps> = ({
 					className="bg-gray-700 text-white px-2 py-1 rounded-md outline-none"
 				/>
 			) : (
-				<div
+				<section
 					onClick={() => onSelectChat(chatId)}
 					className="flex-1 truncate"
 				>
 					{name}
-				</div>
+				</section>
 			)}
 
-			<div className="flex space-x-2">
+			<section className="flex space-x-2">
 				{isEditing ? (
 					<button onClick={handleSaveEdit} className="text-green-400">
 						✔
@@ -60,8 +60,8 @@ const ChatItem: FC<ChatItemProps> = ({
 				>
 					🗑
 				</button>
-			</div>
-		</div>
+			</section>
+		</section>
 	);
 };
 

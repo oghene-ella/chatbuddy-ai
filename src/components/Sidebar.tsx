@@ -1,29 +1,18 @@
-import { FC, useState } from "react";
-// import { Menu, X } from "lucide-react";
+import { FC, useState, useEffect } from "react";
 import UserProfile from "./Navbar/UserProfile";
 import SearchBar from "./Navbar/SearchBar";
 import ChatList from "./Navbar/ChatList";
 import NewChat from "./Navbar/NewChat";
-
+import { SidebarProps } from "../types/chat";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useChat } from "../context/ChatContext";
+import { IconButton } from "@mui/material";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import CloseIcon from "@mui/icons-material/Close";
 import AppsIcon from "@mui/icons-material/AppsOutlined";
 import favicon from "../assets/favicon.png";
-
-interface Chat {
-	id: string;
-	name: string;
-}
-
-interface SidebarProps {
-	user: { name: string, profilePic: string };
-	chats: Chat[];
-	onSearch: (query: string) => void;
-	onNewChat: () => void;
-	onSelectChat: (chatId: string) => void;
-	onEditChat: (chatId: string, newName: string) => void;
-	onDeleteChat: (chatId: string) => void;
-}
+import { Logout as LogoutIcon } from "@mui/icons-material";
 
 const Sidebar: FC<SidebarProps> = ({
 	user,
@@ -37,6 +26,23 @@ const Sidebar: FC<SidebarProps> = ({
 	const [showMenu, setShowMenu] = useState(false);
 	console.log("Sidebar Props:", { user, chats });
 	console.log("showMenu:", showMenu);
+	const navigate = useNavigate();
+	const { currentUser, logout } = useAuth();
+
+	useEffect(() => {
+		if (!currentUser) {
+			navigate("/login");
+		}
+	}, [currentUser, navigate]);
+
+	const handleLogout = async () => {
+		try {
+			await logout();
+			navigate("/login");
+		} catch (error) {
+			console.error("Error logging out:", error);
+		}
+	};
 
 	return (
 		<>
@@ -85,11 +91,14 @@ const Sidebar: FC<SidebarProps> = ({
 				</section>
 
 				{/* User profile */}
-				<section className="flex items-end p-5">
+				<section className="flex justify-between items-end p-5">
 					<UserProfile
-						name={user.name}
-						profilePic={user.profilePic}
+						userId={user.name}
+						displayName={user.profilePic}
 					/>
+					<IconButton onClick={handleLogout} color="primary">
+						<LogoutIcon />
+					</IconButton>
 				</section>
 			</nav>
 

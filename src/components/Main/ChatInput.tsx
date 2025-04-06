@@ -1,18 +1,17 @@
-// src/components/MainContent/ChatInput.tsx
-import { Send } from "@mui/icons-material";
+import { Send, CachedOutlined } from "@mui/icons-material";
 import { FC, useState } from "react";
-
-interface ChatInputProps {
-	onSendMessage: (message: string) => void;
-}
+import { ChatInputProps } from "../../types/chat";
 
 const ChatInput: FC<ChatInputProps> = ({ onSendMessage }) => {
 	const [message, setMessage] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSendMessage = () => {
+	const handleSendMessage = async () => {
 		if (message.trim()) {
-			onSendMessage(message);
+			setIsLoading(true);
+			await onSendMessage(message);
 			setMessage("");
+			setIsLoading(false);
 		}
 	};
 
@@ -23,14 +22,15 @@ const ChatInput: FC<ChatInputProps> = ({ onSendMessage }) => {
 				value={message}
 				onChange={(e) => setMessage(e.target.value)}
 				className="p-2 w-full rounded-lg  outline-none"
-                color="white"
+				color="white"
 				placeholder="Type a message..."
 			/>
 			<button
 				className="bg-blue-500 text-white p-2 rounded-lg"
 				onClick={handleSendMessage}
+				disabled={isLoading}
 			>
-				<Send/>
+				{isLoading ? <CachedOutlined /> : <Send />}
 			</button>
 		</div>
 	);

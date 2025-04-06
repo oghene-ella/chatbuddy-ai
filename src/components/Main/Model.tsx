@@ -1,11 +1,6 @@
 import { FC } from "react";
 import { Select, MenuItem, FormControl } from "@mui/material";
-
-interface ModelSelectorProps {
-	models: string[];
-	selectedModel: string;
-	onSelectModel: (model: string) => void;
-}
+import { ModelSelectorProps } from "../../types/chat";
 
 const ModelSelector: FC<ModelSelectorProps> = ({
 	models,

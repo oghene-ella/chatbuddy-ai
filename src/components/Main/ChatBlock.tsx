@@ -1,15 +1,11 @@
 import { FC } from "react";
-
-interface Message {
-	sender: string;
-	text: string;
-}
-
-interface ChatWindowProps {
-	messages: Message[];
-}
+import { ChatWindowProps, Message } from "../../types/chat";
 
 const ChatWindow: FC<ChatWindowProps> = ({ messages }) => {
+	if (!messages) {
+		return <div className="text-red-500">Error loading messages.</div>;
+	}
+
 	return (
 		<div className="p-4 overflow-y-auto h-[calc(100vh-200px)]">
 			{messages.length === 0 ? (

@@ -1,10 +1,6 @@
 import { FC } from "react";
 import ChatItem from "./ChatItems";
-
-interface Chat {
-	id: string;
-	name: string;
-}
+import { Chat } from "../../types/chat";
 
 interface ChatListProps {
 	chats: Chat[];
@@ -25,7 +21,7 @@ const ChatList: FC<ChatListProps> = ({
 				<ChatItem
 					key={chat.id}
 					chatId={chat.id}
-					name={chat.name}
+					name={chat.lastMessage || "New Chat"}
 					onSelectChat={onSelectChat}
 					onEditChat={onEditChat}
 					onDeleteChat={onDeleteChat}
