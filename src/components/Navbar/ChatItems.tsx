@@ -1,4 +1,9 @@
 import { FC, useState } from "react";
+import { IconButton, TextField } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface ChatItemProps {
 	chatId: string;
@@ -16,52 +21,62 @@ const ChatItem: FC<ChatItemProps> = ({
 	onDeleteChat,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
-	const [newName, setNewName] = useState(name);
+	const [editedName, setEditedName] = useState(name);
 
-	const handleSaveEdit = () => {
-		onEditChat(chatId, newName);
+	const handleEdit = () => {
+		setIsEditing(true);
+	};
+
+	const handleSave = () => {
+		onEditChat(chatId, editedName);
+		setIsEditing(false);
+	};
+
+	const handleCancel = () => {
+		setEditedName(name);
 		setIsEditing(false);
 	};
 
 	return (
-		<section className="flex items-center justify-between p-2 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+		<div className="flex items-center justify-between p-2 hover:bg-gray-700 rounded-lg">
 			{isEditing ? (
-				<input
-					type="text"
-					value={newName}
-					onChange={(e) => setNewName(e.target.value)}
-					className="bg-gray-700 text-white px-2 py-1 rounded-md outline-none"
-				/>
+				<div className="flex items-center gap-2 flex-1">
+					<TextField
+						value={editedName}
+						onChange={(e) => setEditedName(e.target.value)}
+						size="small"
+						fullWidth
+						className="bg-gray-800"
+						InputProps={{
+							className: "text-white",
+						}}
+					/>
+					<IconButton onClick={handleSave} size="small">
+						<CheckIcon className="text-green-500" />
+					</IconButton>
+					<IconButton onClick={handleCancel} size="small">
+						<CloseIcon className="text-red-500" />
+					</IconButton>
+				</div>
 			) : (
-				<section
-					onClick={() => onSelectChat(chatId)}
-					className="flex-1 truncate"
-				>
-					{name}
-				</section>
-			)}
-
-			<section className="flex space-x-2">
-				{isEditing ? (
-					<button onClick={handleSaveEdit} className="text-green-400">
-						✔
-					</button>
-				) : (
+				<>
 					<button
-						onClick={() => setIsEditing(true)}
-						className="text-yellow-400"
+						onClick={() => onSelectChat(chatId)}
+						className="flex-1 text-left truncate"
 					>
-						✏
+						{name}
 					</button>
-				)}
-				<button
-					onClick={() => onDeleteChat(chatId)}
-					className="text-red-400"
-				>
-					🗑
-				</button>
-			</section>
-		</section>
+					<div className="flex gap-1">
+						<IconButton onClick={handleEdit} size="small">
+							<EditIcon className="text-gray-400" />
+						</IconButton>
+						<IconButton onClick={() => onDeleteChat(chatId)} size="small">
+							<DeleteIcon className="text-red-500" />
+						</IconButton>
+					</div>
+				</>
+			)}
+		</div>
 	);
 };
 

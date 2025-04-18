@@ -6,11 +6,13 @@ export interface User {
 }
 
 export interface Chat {
-    id: string;
+    id?: string;
     participants: string[];
+    chatName: string;
     messages: Message[];
     lastMessage: string;
     lastMessageTime: Timestamp;
+    createdAt: Timestamp;
 }
 
 export interface Message {
@@ -18,6 +20,7 @@ export interface Message {
     text: string;
     senderId: string;
     timestamp: Timestamp;
+    type: 'user' | 'ai';
 }
 
 export interface ErrorState {
@@ -34,9 +37,11 @@ export interface ChatContextType {
     chats: Chat[];
     currentChat: Chat | null;
     loading: LoadingState;
+    selectedModel: string;
+    setSelectedModel: (model: string) => void;
     sendMessage: (text: string) => Promise<void>;
     setCurrentChat: (chat: Chat | null) => void;
-    createNewChat: (participantId: string) => Promise<string>;
+    createNewChat: (userName: string) => Promise<string>;
     deleteChat: (chatId: string) => Promise<void>;
     addMessage: (chatId: string, message: Message) => Promise<void>;
     editChat: (chatId: string, newName: string) => Promise<void>;
@@ -52,7 +57,7 @@ export interface SidebarProps {
     chats: Chat[];
     selectedChatId: string | null;
     onSearch: (query: string) => void;
-    onNewChat: () => void;
+    onNewChat: (chatName: string) => void;
     onSelectChat: (chatId: string) => void;
     onEditChat: (chatId: string, newName: string) => void;
     onDeleteChat: (chatId: string) => void;

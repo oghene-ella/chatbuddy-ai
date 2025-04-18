@@ -1,73 +1,98 @@
-import { useState } from "react";
+import { FC, useCallback, useMemo } from "react";
 import MainContent from "../components/MainContent";
 import Sidebar from "../components/Sidebar";
-import { Timestamp } from "firebase/firestore";
-import { Chat } from "../types/chat";
-import UserProfile from "../components/Navbar/UserProfile"
+import { useChat } from "../context/ChatContext";
+import UserProfile from "../components/Navbar/UserProfile";
+import { useState, useEffect } from "react";
 
-const Home: React.FC = () => {
-	const [chats, setChats] = useState<Chat[]>([]);
-	const [selectedChat, setSelectedChat] = useState<string | null>(null);
-	const [searchQuery, setSearchQuery] = useState<string>("");
+const Home: FC = () => {
+	const { 
+		chats, 
+		currentChat, 
+		searchQuery, 
+		setSearchQuery, 
+		createNewChat, 
+		setCurrentChat, 
+		editChat, 
+		deleteChat,
+		getFilteredChats
+	} = useChat();
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-
-	const handleSearch = (query: string) => {
-		setSearchQuery(query);
-		const filteredChats = chats.filter((chat) =>
-			chat.lastMessage.toLowerCase().includes(query.toLowerCase()),
-		);
-		if (filteredChats.length > 0 && !selectedChat) {
-			setSelectedChat(filteredChats[0].id);
+	// Auto-close sidebar on mobile when chat is selected
+	useEffect(() => {
+		if (currentChat && window.innerWidth < 768) {
+			setIsSidebarOpen(false);
 		}
-	};
+	}, [currentChat]);
 
-	const handleNewChat = () => {
-		const newChat: Chat = {
-			id: Date.now().toString(),
-			participants: [],
-			messages: [],
-			lastMessage: "New Chat",
-			lastMessageTime: Timestamp.now(),
-		};
-		setChats([...chats, newChat]);
-		setSelectedChat(newChat.id);
-	};
+	const filteredChats = useMemo(() => getFilteredChats(), [chats, searchQuery]);
 
-	const handleSelectChat = (chatId: string) => {
-		setSelectedChat(chatId);
-	};
+	const handleSearch = useCallback((query: string) => {
+		setSearchQuery(query);
+	}, [setSearchQuery]);
 
-	const handleEditChat = (chatId: string, newName: string) => {
-		setChats(
-			chats.map((chat) =>
-				chat.id === chatId ? { ...chat, name: newName } : chat,
-			),
-		);
-	};
-	const handleDeleteChat = (chatId: string) =>
-		setChats(chats.filter((chat) => chat.id !== chatId));
+	const handleNewChat = useCallback(async (chatName: string) => {
+		const chatId = await createNewChat(chatName);
+		setCurrentChat(chats.find(chat => chat.id === chatId) || null);
+	}, [createNewChat, chats, setCurrentChat]);
+
+	const handleSelectChat = useCallback((chatId: string) => {
+		setCurrentChat(chats.find(chat => chat.id === chatId) || null);
+	}, [chats, setCurrentChat]);
+
+	const handleEditChat = useCallback((chatId: string, newName: string) => {
+		editChat(chatId, newName);
+	}, [editChat]);
+
+	const handleDeleteChat = useCallback((chatId: string) => {
+		deleteChat(chatId);
+	}, [deleteChat]);
 
 	return (
-		<section className="flex">
-			<Sidebar
-				user={UserProfile}
-				chats={chats.filter((chat) =>
-					chat.lastMessage
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase()),
-				)}
-				selectedChatId={selectedChat}
-				onSearch={handleSearch}
-				onNewChat={handleNewChat}
-				onSelectChat={handleSelectChat}
-				onEditChat={handleEditChat}
-				onDeleteChat={handleDeleteChat}
-			/>
-			<MainContent
-				user={UserProfile}
-				selectedChat={chats.find((chat) => chat.id === selectedChat)}
-			/>
-		</section>
+		<div className="flex h-screen bg-gray-900">
+			{/* Mobile Sidebar Toggle */}
+			<button
+				onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+				className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
+			>
+				{isSidebarOpen ? '✕' : '☰'}
+			</button>
+
+			{/* Sidebar Overlay */}
+			{isSidebarOpen && (
+				<div 
+					className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+					onClick={() => setIsSidebarOpen(false)}
+				/>
+			)}
+
+			{/* Sidebar */}
+			<aside 
+				className={`fixed md:static inset-y-0 left-0 z-50 w-64 md:w-72 lg:w-80 bg-gray-900 transform transition-transform duration-300 ease-in-out ${
+					isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+				}`}
+			>
+				<Sidebar
+					user={UserProfile}
+					chats={filteredChats}
+					selectedChatId={currentChat?.id || null}
+					onSearch={handleSearch}
+					onNewChat={handleNewChat}
+					onSelectChat={handleSelectChat}
+					onEditChat={handleEditChat}
+					onDeleteChat={handleDeleteChat}
+				/>
+			</aside>
+
+			{/* Main Content */}
+			<main className="flex-1 h-full overflow-hidden">
+				<MainContent
+					user={UserProfile}
+					selectedChat={currentChat || undefined}
+				/>
+			</main>
+		</div>
 	);
 };
 

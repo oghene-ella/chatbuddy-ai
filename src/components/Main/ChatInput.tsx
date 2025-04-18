@@ -15,22 +15,37 @@ const ChatInput: FC<ChatInputProps> = ({ onSendMessage }) => {
 		}
 	};
 
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			handleSendMessage();
+		}
+	};
+
 	return (
-		<div className="flex items-center gap-3 p-2 border-t">
+		<div className="flex items-center gap-2 p-4 bg-gray-800 border-t border-gray-700">
 			<input
 				type="text"
 				value={message}
 				onChange={(e) => setMessage(e.target.value)}
-				className="p-2 w-full rounded-lg  outline-none"
-				color="white"
+				onKeyDown={handleKeyDown}
+				className="flex-1 p-3 rounded-xl bg-gray-700 text-white outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 placeholder-gray-400"
 				placeholder="Type a message..."
 			/>
 			<button
-				className="bg-blue-500 text-white p-2 rounded-lg"
+				className={`p-3 rounded-xl transition-all duration-200 ${
+					isLoading || !message.trim()
+						? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+						: 'bg-blue-600 text-white hover:bg-blue-700'
+				}`}
 				onClick={handleSendMessage}
-				disabled={isLoading}
+				disabled={isLoading || !message.trim()}
 			>
-				{isLoading ? <CachedOutlined /> : <Send />}
+				{isLoading ? (
+					<CachedOutlined className="animate-spin" />
+				) : (
+					<Send />
+				)}
 			</button>
 		</div>
 	);

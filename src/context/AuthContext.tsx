@@ -8,7 +8,7 @@ import {
   UserCredential
 } from 'firebase/auth';
 import { auth } from '../config/firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
 interface AuthContextType {
@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // Create a user profile document in Firestore
       try {
         await setDoc(doc(db, 'users', user.uid), {
           email: user.email,
@@ -49,12 +48,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       } catch (firestoreError) {
         console.error('Firestore error:', firestoreError);
-        // If Firestore fails, we should still sign out the user
         await signOut(auth);
         throw new Error('Failed to create user profile');
       }
 
-      // Sign out the user after creating their account
       await signOut(auth);
     } catch (error) {
       console.error('Signup error:', error);

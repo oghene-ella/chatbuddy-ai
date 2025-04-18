@@ -17,11 +17,11 @@ const ChatList: FC<ChatListProps> = ({
 }) => {
 	return (
 		<div className="flex flex-col space-y-2 gap-3 px-3">
-			{chats.map((chat) => (
+			{chats.map((chat) => chat.id && (
 				<ChatItem
 					key={chat.id}
 					chatId={chat.id}
-					name={chat.lastMessage || "New Chat"}
+					name={chat.chatName || "New Chat"}
 					onSelectChat={onSelectChat}
 					onEditChat={onEditChat}
 					onDeleteChat={onDeleteChat}

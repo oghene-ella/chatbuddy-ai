@@ -1,39 +1,30 @@
-import axios from 'axios';
+import axios from "axios";
+import { MODELS } from '../../config/models';
 
-const FetchModels = async (model: string, message: string) => {
+const FetchModels = async (modelName: string, message: string) => {
 	let response;
-	switch (model) {
-		case "GPT-3":
-			response = await axios.post(
-				"https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct",
-				{
-					prompt: message,
-					max_tokens: 150,
-				},
-				{
-					headers: {
-						Authorization: `Bearer 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`,
-					},
-				},
-			);
-			break;
-		case "Gemini AI":
-			response = await axios.post(
-				"https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct",
-				{
-					prompt: message,
-				},
-				{
-					headers: {
-						Authorization: `Bearer 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`,
-					},
-				},
-			);
-			break;
-
-		default:
-			throw new Error("Model not supported");
+	const modelConfig = Object.values(MODELS).find(m => m.name === modelName);
+	
+	if (!modelConfig) {
+		throw new Error("Model not supported");
 	}
+
+	response = await axios.post(
+		"https://api.openai.com/v1/chat/completions",
+		{
+			model: modelConfig.id,
+			messages: [{ role: "user", content: message }],
+			max_tokens: modelConfig.maxTokens,
+			temperature: modelConfig.temperature,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+			},
+		},
+	);
+
 	return response.data;
 };
+
 export default FetchModels;

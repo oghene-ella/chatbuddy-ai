@@ -6,7 +6,6 @@ import NewChat from "./Navbar/NewChat";
 import { SidebarProps } from "../types/chat";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useChat } from "../context/ChatContext";
 import { IconButton } from "@mui/material";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import CloseIcon from "@mui/icons-material/Close";
