@@ -48,7 +48,7 @@ const MainContent: FC<MainContentProps> = ({ user, selectedChat }) => {
 					{error.message}
 				</Alert>
 			)}
-			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+			<div className="flex flex-col-reverse md:flex-row justify-between items-end md:items-center gap-4 mb-4 ml-8 md:ml-0">
 				<ModelSelector
 					models={[MODELS.PRIMARY.name, MODELS.SECONDARY.name]}
 					selectedModel={selectedModel}
@@ -61,7 +61,7 @@ const MainContent: FC<MainContentProps> = ({ user, selectedChat }) => {
 					<CircularProgress />
 				</div>
 			) : selectedChat ? (
-				<div className="flex flex-col h-[calc(100vh-200px)]">
+				<div className="flex flex-col h-full w-full  items-baseline">
 					<ChatWindow messages={selectedChat.messages} />
 					<ChatInput onSendMessage={handleSendMessage} />
 				</div>

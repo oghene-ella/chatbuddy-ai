@@ -8,7 +8,7 @@ const ModelSelector: FC<ModelSelectorProps> = ({
 	onSelectModel,
 }) => {
 	return (
-		<div className="p-2 w-1/6 text-white">
+		<div className="p-2 md:1/3 lg:w-1/6 text-white">
 			<FormControl fullWidth>
 				<Select
 					labelId="model-select-label"

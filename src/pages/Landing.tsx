@@ -9,9 +9,9 @@ const Header = () => {
 	};
 
 	return (
-		<div className="w-screen h-screen flex justify-center">
-			<div className="w-screen flex items-center flex-col-reverse lg:flex-row m-20 gap-10">
-				<div className="w-2/3 text-center md:text-start">
+		<div className="w-screen h-full flex justify-center">
+			<div className="w-screen flex items-center flex-col-reverse lg:flex-row p-10 md:p-5 md:m-20 gap-10">
+				<div className=" md:w-2/3 text-center md:text-start">
 					<h1 className="text-5xl font-bold text-white">
 						Chat<b className="text-blue-400">Buddy</b> AI!
 					</h1>
@@ -37,7 +37,7 @@ const Header = () => {
 						Get Started
 					</button>
 				</div>
-				<img src={robotImg} className="w-1/3" />
+				<img src={robotImg} className="md:w-1/3" />
 			</div>
 		</div>
 	);

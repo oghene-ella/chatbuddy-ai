@@ -50,27 +50,29 @@ const Home: FC = () => {
 	}, [deleteChat]);
 
 	return (
-		<div className="flex h-screen bg-gray-900">
+		<div className="flex h-screen bg-gray-900 border border-blue-700">
 			{/* Mobile Sidebar Toggle */}
 			<button
 				onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-				className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
+				className="md:hidden fixed top-4 left-4 z-50 mr-4 p-2 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
 			>
-				{isSidebarOpen ? '✕' : '☰'}
+				{isSidebarOpen ? "✕" : "☰"}
 			</button>
 
 			{/* Sidebar Overlay */}
 			{isSidebarOpen && (
-				<div 
-					className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+				<div
+					className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden border border-red-400"
 					onClick={() => setIsSidebarOpen(false)}
 				/>
 			)}
 
 			{/* Sidebar */}
-			<aside 
-				className={`fixed md:static inset-y-0 left-0 z-50 w-64 md:w-72 lg:w-80 bg-gray-900 transform transition-transform duration-300 ease-in-out ${
-					isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+			<aside
+				className={`fixed md:static inset-y-0 left-0 z-50 w-64 md:w-72 lg:w-80 text-white bg-gray-900 transform transition-transform duration-300 ease-in-out border border-amber-200 ${
+					isSidebarOpen
+						? "translate-x-0"
+						: "-translate-x-full md:translate-x-0"
 				}`}
 			>
 				<Sidebar
@@ -83,6 +85,7 @@ const Home: FC = () => {
 					onEditChat={handleEditChat}
 					onDeleteChat={handleDeleteChat}
 				/>
+				<h1>hello</h1>
 			</aside>
 
 			{/* Main Content */}

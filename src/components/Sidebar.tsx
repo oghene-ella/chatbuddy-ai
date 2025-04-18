@@ -46,9 +46,9 @@ const Sidebar: FC<SidebarProps> = ({
 	return (
 		<>
 			<nav
-				className={`bg-sidebar-bg text-white h-screen flex flex-col justify-between ${
-					showMenu ? "translate-x-0" : "-translate-x-full"
-				} md:translate-x-0 md:relative md:w-1/4`}
+				className={`border border-green-300 bg-sidebar-bg text-white h-screen flex flex-col justify-between w-full ${
+					showMenu ? "translate-x-0" : "-translate-x-full "
+				} md:translate-x-0 md:relative md:w-full`}
 			>
 				<section className="flex flex-col justify-between gap-4">
 					<div className="flex items-center justify-between mb-4">
