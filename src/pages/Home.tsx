@@ -50,7 +50,7 @@ const Home: FC = () => {
 	}, [deleteChat]);
 
 	return (
-		<div className="flex min-h-screen bg-gray-900">
+		<div className="flex h-[100dvh] bg-gray-900">
 			{/* Mobile Sidebar Toggle */}
 			<button
 				onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -58,7 +58,6 @@ const Home: FC = () => {
 			>
 				{isSidebarOpen ? "✕" : "☰"}
 			</button>
-
 
 			{/* Sidebar */}
 			<aside

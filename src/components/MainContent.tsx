@@ -47,7 +47,7 @@ const MainContent: FC<MainContentProps> = ({ user, selectedChat }) => {
 	};
 
 	return (
-		<div className="flex flex-col w-full min-h-screen bg-main-content text-white p-3">
+		<div className="flex flex-col w-full  h-full bg-main-content text-white p-3">
 			{/* Top Bar */}
 			<div className="flex flex-col-reverse md:flex-row justify-between items-end md:items-center gap-4 mb-4 ml-8 md:ml-0">
 				<ModelSelector
