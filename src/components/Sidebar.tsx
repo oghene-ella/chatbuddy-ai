@@ -13,18 +13,19 @@ import AppsIcon from "@mui/icons-material/AppsOutlined";
 import favicon from "../assets/favicon.png";
 import { Logout as LogoutIcon } from "@mui/icons-material";
 
-const Sidebar: FC<SidebarProps> = ({
-	user,
-	chats,
-	onSearch,
-	onNewChat,
-	onSelectChat,
-	onEditChat,
-	onDeleteChat,
-}) => {
-	const [showMenu, setShowMenu] = useState(false);
+const Sidebar: FC<SidebarProps> = (props) => {
+	const {
+		user,
+		chats,
+		onSearch,
+		onNewChat,
+		onSelectChat,
+		onEditChat,
+		onDeleteChat,
+	} = props;
+	const { isSidebarOpen, setIsSidebarOpen } = props;
+
 	console.log("Sidebar Props:", { user, chats });
-	console.log("showMenu:", showMenu);
 	const navigate = useNavigate();
 	const { currentUser, logout } = useAuth();
 
@@ -46,8 +47,8 @@ const Sidebar: FC<SidebarProps> = ({
 	return (
 		<>
 			<nav
-				className={`border border-green-300 bg-sidebar-bg text-white h-screen flex flex-col justify-between w-full ${
-					showMenu ? "translate-x-0" : "-translate-x-full "
+				className={`bg-sidebar-bg text-white h-screen flex flex-col justify-between w-full ${
+					isSidebarOpen ? " translate-x-0" : "-translate-x-full"
 				} md:translate-x-0 md:relative md:w-full`}
 			>
 				<section className="flex flex-col justify-between gap-4">
@@ -56,7 +57,7 @@ const Sidebar: FC<SidebarProps> = ({
 						<span className="flex items-center gap-3 py-5 px-3">
 							<img src={favicon} className="w-8 h-8" />
 							<h3 className="font-dm-sans font-bold text-md gap-2">
-								New Chat
+								ChatBuddy
 							</h3>
 						</span>
 
@@ -65,9 +66,13 @@ const Sidebar: FC<SidebarProps> = ({
 							<NewChat onNewChat={onNewChat} />
 							<button
 								className="text-white p-2 rounded-lg"
-								onClick={() => setShowMenu(!showMenu)}
+								onClick={() => setIsSidebarOpen(!isSidebarOpen)}
 							>
-								{showMenu ? <CloseIcon /> : <MenuOpenIcon />}
+								{isSidebarOpen ? (
+									<CloseIcon />
+								) : (
+									<MenuOpenIcon />
+								)}
 							</button>
 						</span>
 					</div>
@@ -101,12 +106,6 @@ const Sidebar: FC<SidebarProps> = ({
 				</section>
 			</nav>
 
-			{showMenu && (
-				<div
-					className="fixed inset-0 bg-black bg-opacity-50 md:hidden"
-					onClick={() => setShowMenu(false)}
-				></div>
-			)}
 		</>
 	);
 };

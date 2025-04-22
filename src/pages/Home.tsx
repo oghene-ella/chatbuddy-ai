@@ -19,12 +19,12 @@ const Home: FC = () => {
 	} = useChat();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-	// Auto-close sidebar on mobile when chat is selected
 	useEffect(() => {
 		if (currentChat && window.innerWidth < 768) {
 			setIsSidebarOpen(false);
 		}
 	}, [currentChat]);
+
 
 	const filteredChats = useMemo(() => getFilteredChats(), [chats, searchQuery]);
 
@@ -50,7 +50,7 @@ const Home: FC = () => {
 	}, [deleteChat]);
 
 	return (
-		<div className="flex h-screen bg-gray-900 border border-blue-700">
+		<div className="flex h-screen bg-gray-900">
 			{/* Mobile Sidebar Toggle */}
 			<button
 				onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -59,19 +59,12 @@ const Home: FC = () => {
 				{isSidebarOpen ? "✕" : "☰"}
 			</button>
 
-			{/* Sidebar Overlay */}
-			{isSidebarOpen && (
-				<div
-					className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden border border-red-400"
-					onClick={() => setIsSidebarOpen(false)}
-				/>
-			)}
 
 			{/* Sidebar */}
 			<aside
-				className={`fixed md:static inset-y-0 left-0 z-50 w-64 md:w-72 lg:w-80 text-white bg-gray-900 transform transition-transform duration-300 ease-in-out border border-amber-200 ${
+				className={`fixed md:static top-0 left-0 z-50 h-full w-64 md:w-72 lg:w-80 text-white transform transition-transform duration-300 ease-in-out ${
 					isSidebarOpen
-						? "translate-x-0"
+						? `translate-x-0`
 						: "-translate-x-full md:translate-x-0"
 				}`}
 			>
@@ -84,8 +77,9 @@ const Home: FC = () => {
 					onSelectChat={handleSelectChat}
 					onEditChat={handleEditChat}
 					onDeleteChat={handleDeleteChat}
+					isSidebarOpen={isSidebarOpen}
+					setIsSidebarOpen={setIsSidebarOpen}
 				/>
-				<h1>hello</h1>
 			</aside>
 
 			{/* Main Content */}

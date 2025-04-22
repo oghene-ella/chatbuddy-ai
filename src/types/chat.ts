@@ -53,15 +53,18 @@ export interface ChatContextType {
 }
 
 export interface SidebarProps {
-    user: User;
-    chats: Chat[];
-    selectedChatId: string | null;
-    onSearch: (query: string) => void;
-    onNewChat: (chatName: string) => void;
-    onSelectChat: (chatId: string) => void;
-    onEditChat: (chatId: string, newName: string) => void;
-    onDeleteChat: (chatId: string) => void;
+	user: any;
+	chats: Chat[];
+	selectedChatId?: string | null;
+	onSearch: (query: string) => void;
+	onNewChat: (chatName: string) => void;
+	onSelectChat: (chatId: string) => void;
+	onEditChat: (chatId: string, newName: string) => void;
+	onDeleteChat: (chatId: string) => void;
+	isSidebarOpen: boolean;
+	setIsSidebarOpen: (value: boolean) => void;
 }
+
 
 export interface MainContentProps {
     user: User;
