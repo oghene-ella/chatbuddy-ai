@@ -16,7 +16,7 @@ const ChatList: FC<ChatListProps> = ({
 	onDeleteChat,
 }) => {
 	return (
-		<div className="flex flex-col space-y-2 gap-3 px-3">
+		<div className="flex flex-col space-y-2 gap-3 px-3 scroll-auto overflow-y-auto">
 			{chats.map((chat) => chat.id && (
 				<ChatItem
 					key={chat.id}

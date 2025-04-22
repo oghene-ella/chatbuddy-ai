@@ -23,7 +23,7 @@ const ChatInput: FC<ChatInputProps> = ({ onSendMessage }) => {
 	};
 
 	return (
-		<div className="flex items-center gap-2 p-4 bg-gray-800 border-t border-gray-700 w-full">
+		<div className="flex items-center gap-2 p-4 rounded-lg bg-gray-800 border-t border-gray-700 w-full">
 			<input
 				type="text"
 				value={message}
